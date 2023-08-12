@@ -1,0 +1,68 @@
+<dashboard version="1.1">
+  <label>Registration plates game</label>
+  <row>
+    <panel>
+      <single>
+        <title>Number of plates without solution</title>
+        <search>
+          <query>|search total_num="0" | stats count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Number of plates with at least one solution</title>
+        <search>
+          <query>|search total_num&gt;"0" | stats count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Successful ratio</title>
+        <search>
+          <query>source="registration.csv" host="ff0054c9f602" sourcetype="csv" | stats count(eval(total_num&gt;"0")) AS complete, count AS total | eval percent_difference=tostring(((complete/total)*100))+"%" | table percent_difference</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Plate with most matches (last digit not 0 or 1)</title>
+        <search>
+          <query>source="registration.csv" host="ff0054c9f602" sourcetype="csv" | regex plate_num!="[01]$" | sort - total_num | head 1 | table plate_num</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Plates with only 1 solution</title>
+        <search>
+          <query>| search total_num="1" | table plate_num, solution</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="wrap">false</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>
