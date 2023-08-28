@@ -12,7 +12,7 @@ def generate_registrations():
         registrations.append(number)
     return registrations
 
-allRegistrations = generate_registrations()
+all_registrations = generate_registrations()
 
 # 2. Defining all operations
 def addition(a, b):
@@ -57,7 +57,7 @@ def root(a, b):
 
     return None
 
-binaryOperations = [addition, subtraction, multiplication, division, squaring, root]
+binary_operations = [addition, subtraction, multiplication, division, squaring, root]
 
 def raw_number(number):
     return number
@@ -77,9 +77,9 @@ def factorial(number):
     
     return None
 
-unaryOperations = [raw_number, negate_number, factorial]
+unary_operations = [raw_number, negate_number, factorial]
 
-operatorPrecedence = {
+operator_precedence = {
     "squaring": 4,
     "root": 3,
     "multiplication": 2,
@@ -119,27 +119,27 @@ def Equation(z1, o1, f1, z2, o2, f2, z3, o3, z4, parentheses):
         return f"{z1prefix}{z1}{z1suffix} {first_function_sign} {z2prefix}{z2}{z2suffix} {second_function_sign} {z3prefix}{z3}{z3suffix} = {z4}"
 
 # 4. Checking all license plates
-solutionList = []
+solution_list = []
 def perform_operations():
 
     # for each license plate...
-    for plate_num in allRegistrations:
+    for plate_num in all_registrations:
         total_num = 0
         solution = None
 
         # for each combination of unary operations...
-        productUnaryOperations =  itertools.product(unaryOperations, repeat=3)
-        for prodU in productUnaryOperations:
+        product_unary_operations =  itertools.product(unary_operations, repeat=3)
+        for prod_u in product_unary_operations:
             
             # for each combination of binary operations...
-            productBinaryOperations =  itertools.product(binaryOperations, repeat=2)
-            for prodB in productBinaryOperations:
+            product_binary_operations =  itertools.product(binary_operations, repeat=2)
+            for prod_b in product_binary_operations:
                 
                 # CASE 1: when the parenthesis is in the first place
-                result1 = prodB[0](int(prodU[0](int(plate_num[0]))), int(prodU[1](int(plate_num[1]))))
+                result1 = prod_b[0](int(prod_u[0](int(plate_num[0]))), int(prod_u[1](int(plate_num[1]))))
                 if result1 == None:
                     continue
-                result2 = prodB[1](result1, int(prodU[2](int(plate_num[2]))))
+                result2 = prod_b[1](result1, int(prod_u[2](int(plate_num[2]))))
                 if result2 == None:
                     continue
                 else:
@@ -147,22 +147,22 @@ def perform_operations():
                         total_num += 1
                         solution = Equation(
                             int(plate_num[0]),
-                            prodU[0],
-                            prodB[0],
+                            prod_u[0],
+                            prod_b[0],
                             int(plate_num[1]),
-                            prodU[1],
-                            prodB[1],
+                            prod_u[1],
+                            prod_b[1],
                             int(plate_num[2]),
-                            prodU[2],
+                            prod_u[2],
                             int(plate_num[3]),
                             1
                         )
 
                 # CASE 2: when the parenthesis is in the second place
-                result1 = prodB[1](int(prodU[1](int(plate_num[1]))), int(prodU[2](int(plate_num[2]))))
+                result1 = prod_b[1](int(prod_u[1](int(plate_num[1]))), int(prod_u[2](int(plate_num[2]))))
                 if result1 == None:
                     continue
-                result2 = prodB[0](int(prodU[0](int(plate_num[0]))), result1)
+                result2 = prod_b[0](int(prod_u[0](int(plate_num[0]))), result1)
                 if result2 == None:
                     continue
                 else:
@@ -170,30 +170,30 @@ def perform_operations():
                         total_num += 1
                         solution = Equation(
                             int(plate_num[0]),
-                            prodU[0],
-                            prodB[0],
+                            prod_u[0],
+                            prod_b[0],
                             int(plate_num[1]),
-                            prodU[1],
-                            prodB[1],
+                            prod_u[1],
+                            prod_b[1],
                             int(plate_num[2]),
-                            prodU[2],
+                            prod_u[2],
                             int(plate_num[3]),
                             2
                         )
 
                 # CASE 3: when there are no parentheses, priority is considered
-                if operatorPrecedence[prodB[0].__name__] < operatorPrecedence[prodB[1].__name__]:
-                    result1 = prodB[1](int(prodU[1](int(plate_num[1]))), int(prodU[2](int(plate_num[2]))))
+                if operator_precedence[prod_b[0].__name__] < operator_precedence[prod_b[1].__name__]:
+                    result1 = prod_b[1](int(prod_u[1](int(plate_num[1]))), int(prod_u[2](int(plate_num[2]))))
                     if result1 == None:
                         continue
-                    result2 = prodB[0](int(prodU[0](int(plate_num[0]))), result1)
+                    result2 = prod_b[0](int(prod_u[0](int(plate_num[0]))), result1)
                     if result2 == None:
                         continue
                 else:
-                    result1 =prodB[0](int(prodU[0](int(plate_num[0]))), int(prodU[1](int(plate_num[1]))))
+                    result1 =prod_b[0](int(prod_u[0](int(plate_num[0]))), int(prod_u[1](int(plate_num[1]))))
                     if result1 == None:
                         continue
-                    result2 = prodB[1](result1, int(prodU[2](int(plate_num[2]))))
+                    result2 = prod_b[1](result1, int(prod_u[2](int(plate_num[2]))))
                     if result2 == None:
                         continue
                     
@@ -201,19 +201,19 @@ def perform_operations():
                     total_num += 1
                     solution = Equation(
                         int(plate_num[0]),
-                        prodU[0],
-                        prodB[0],
+                        prod_u[0],
+                        prod_b[0],
                         int(plate_num[1]),
-                        prodU[1],
-                        prodB[1],
+                        prod_u[1],
+                        prod_b[1],
                         int(plate_num[2]),
-                        prodU[2],
+                        prod_u[2],
                         int(plate_num[3]),
                         0
                     )
         
         # Adding to the list
-        solutionList.append({
+        solution_list.append({
             "plate_num": plate_num[:-1] + "-" + plate_num[-1],
             "solution": solution,
             "total_num": total_num
@@ -226,7 +226,7 @@ def record_statistics():
         writer = csv.writer(file)
         writer.writerow(['plate_num', 'solution', 'total_num'])
 
-        for item in solutionList:
+        for item in solution_list:
             writer.writerow([item['plate_num'], item['solution'], item['total_num']])
 
     print(f"The data is recorded in '{csv_file}'.")
@@ -235,29 +235,29 @@ perform_operations()
 record_statistics()
 
 # 6. BONUS: if a solution is found immediately move to the next plate
-bonusSolutionList = []
+bonus_solution_list = []
 def perform_bonus_operations():
 
     # for each license plate...
-    for plate_num in allRegistrations:
+    for plate_num in all_registrations:
         can_be_solved = False
 
         # for each combination of unary operations...
-        productUnaryOperations =  itertools.product(unaryOperations, repeat=3)
-        for prodU in productUnaryOperations:
+        product_unary_operations =  itertools.product(unary_operations, repeat=3)
+        for prod_u in product_unary_operations:
 
             if can_be_solved:
                 break
 
             # for each combination of binary operations...
-            productBinaryOperations =  itertools.product(binaryOperations, repeat=2)
-            for prodB in productBinaryOperations:
+            product_binary_operations =  itertools.product(binary_operations, repeat=2)
+            for prod_b in product_binary_operations:
 
                 # CASE 1: when the parenthesis is in the first place
-                result1 = prodB[0](int(prodU[0](int(plate_num[0]))), int(prodU[1](int(plate_num[1]))))
+                result1 = prod_b[0](int(prod_u[0](int(plate_num[0]))), int(prod_u[1](int(plate_num[1]))))
                 if result1 == None:
                     continue
-                result2 = prodB[1](result1, int(prodU[2](int(plate_num[2]))))
+                result2 = prod_b[1](result1, int(prod_u[2](int(plate_num[2]))))
                 if result2 == None:
                     continue
                 else:
@@ -266,10 +266,10 @@ def perform_bonus_operations():
                         break
 
                 # CASE 2: when the parenthesis is in the second place
-                result1 = prodB[1](int(prodU[1](int(plate_num[1]))), int(prodU[2](int(plate_num[2]))))
+                result1 = prod_b[1](int(prod_u[1](int(plate_num[1]))), int(prod_u[2](int(plate_num[2]))))
                 if result1 == None:
                     continue
-                result2 = prodB[0](int(prodU[0](int(plate_num[0]))), result1)
+                result2 = prod_b[0](int(prod_u[0](int(plate_num[0]))), result1)
                 if result2 == None:
                     continue
                 else:
@@ -278,18 +278,18 @@ def perform_bonus_operations():
                         break
 
                 # CASE 3: when there are no parentheses, priority is considered
-                if operatorPrecedence[prodB[0].__name__] < operatorPrecedence[prodB[1].__name__]:
-                    result1 = prodB[1](int(prodU[1](int(plate_num[1]))), int(prodU[2](int(plate_num[2]))))
+                if operator_precedence[prod_b[0].__name__] < operator_precedence[prod_b[1].__name__]:
+                    result1 = prod_b[1](int(prod_u[1](int(plate_num[1]))), int(prod_u[2](int(plate_num[2]))))
                     if result1 == None:
                         continue
-                    result2 = prodB[0](int(prodU[0](int(plate_num[0]))), result1)
+                    result2 = prod_b[0](int(prod_u[0](int(plate_num[0]))), result1)
                     if result2 == None:
                         continue
                 else:
-                    result1 =prodB[0](int(prodU[0](int(plate_num[0]))), int(prodU[1](int(plate_num[1]))))
+                    result1 =prod_b[0](int(prod_u[0](int(plate_num[0]))), int(prod_u[1](int(plate_num[1]))))
                     if result1 == None:
                         continue
-                    result2 = prodB[1](result1, int(prodU[2](int(plate_num[2]))))
+                    result2 = prod_b[1](result1, int(prod_u[2](int(plate_num[2]))))
                     if result2 == None:
                         continue
                     
@@ -298,7 +298,7 @@ def perform_bonus_operations():
                     break
 
         # Adding to the list
-        bonusSolutionList.append({
+        bonus_solution_list.append({
             "plate_num": plate_num[:-1] + "-" + plate_num[-1],
             "can_be_solved": can_be_solved
         })
@@ -309,7 +309,7 @@ def record_bonus_statistics():
         writer = csv.writer(file)
         writer.writerow(['plate_num', 'can_be_solved'])
 
-        for item in bonusSolutionList:
+        for item in bonus_solution_list:
             writer.writerow([item['plate_num'], item['can_be_solved']])
 
     print(f"The data is recorded in '{bonus_csv_file}'.")
